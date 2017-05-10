@@ -1,9 +1,11 @@
+import logging
 import subprocess as sp
 
 from microdrop.plugin_helpers import get_plugin_info
 from microdrop.plugin_manager import (PluginGlobals, Plugin, IPlugin,
-                                      emit_signal, implements)
+                                      implements)
 import conda_helpers as ch
+import path_helpers as ph
 
 from ._version import get_versions
 __version__ = get_versions()['version']
@@ -12,7 +14,8 @@ del get_versions
 logger = logging.getLogger(__name__)
 
 # Store location of `emqttd.cmd` script for convenient access.
-EMQTTD_CMD = ch.conda_prefix().joinpath('Library', 'opt', 'emqttd', 'bin', 'emqttd.cmd')
+EMQTTD_CMD = ch.conda_prefix().joinpath('Library', 'opt', 'emqttd', 'bin',
+                                        'emqttd.cmd')
 
 
 def is_emqttd_running():
@@ -102,7 +105,7 @@ class EmqttdPlugin(Plugin):
     """
     implements(IPlugin)
     version = __version__
-    plugin_name = get_plugin_info(path(__file__).parent).plugin_name
+    plugin_name = get_plugin_info(ph.path(__file__).parent).plugin_name
 
     def __init__(self):
         self.name = self.plugin_name
