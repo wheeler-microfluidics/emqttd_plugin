@@ -3,7 +3,7 @@ import subprocess as sp
 from microdrop.plugin_helpers import get_plugin_info
 from microdrop.plugin_manager import (PluginGlobals, Plugin, IPlugin,
                                       emit_signal, implements)
-from conda_helpers as ch
+import conda_helpers as ch
 
 from ._version import get_versions
 __version__ = get_versions()['version']
