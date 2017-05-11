@@ -28,17 +28,20 @@ def is_emqttd_running():
     return sp.check_output([EMQTTD_CMD, 'ping'], shell=True).strip() == 'pong'
 
 
-def emqttd_exec(*args):
+def emqttd_exec(*args, **kwargs):
     '''
     Execute `emqttd.cmd` command with the provided arguments.
 
     Returns
     -------
-    str
-        Output from executed command.
+    str or int
+        If :data:``capture_output`` is ``True``, return output from executed
+        command.
+
+        Otherwise, return command return code.
     '''
-    # Start `emqttd` service.
-    return sp.check_output([EMQTTD_CMD] + list(args), shell=True)
+    func = sp.check_output if kwargs.get('capture_output') else sp.check_call
+    return func([EMQTTD_CMD] + list(args), shell=True)
 
 
 def emqttd_start():
